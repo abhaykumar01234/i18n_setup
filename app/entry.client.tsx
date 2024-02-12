@@ -7,12 +7,30 @@
 import { RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
+import {
+  hydrateI18n,
+  I18nClientProvider,
+} from "./modules/i18n/ClientEntry.remix";
 
-startTransition(() => {
-  hydrateRoot(
-    document,
-    <StrictMode>
-      <RemixBrowser />
-    </StrictMode>
-  );
-});
+async function hydrate() {
+  await hydrateI18n();
+
+  startTransition(() => {
+    hydrateRoot(
+      document,
+      <I18nClientProvider>
+        <StrictMode>
+          <RemixBrowser />
+        </StrictMode>
+      </I18nClientProvider>
+    );
+  });
+}
+
+if (window.requestIdleCallback) {
+  window.requestIdleCallback(hydrate);
+} else {
+  // Safari doesn't support requestIdleCallback
+  // https://caniuse.com/requestidlecallback
+  window.setTimeout(hydrate, 1);
+}
