@@ -35,13 +35,13 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const locale = await remixI18next.getLocale(request);
-  const withI18headers = await setI18nLocale(locale);
+  const headers = await setI18nLocale(locale);
   const lngs = Object.entries(supportedTranslations).map(([code, label]) => ({
     code,
     label,
   }));
 
-  return json({ locale, lngs }, { headers: withI18headers });
+  return json({ locale, lngs }, { headers });
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -49,12 +49,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const locale = String(formData.get("locale"));
   const headers = await setI18nLocale(locale);
   const redirectURL = String(request.headers.get("Referer")) || "/";
-  // const t = await remixI18next.getFixedT(locale);
-
-  // const headers = await putToast(
-  //   { type: "success", message: t("action_change_lng_success") },
-  //   withI18nHeaders
-  // );
 
   return redirect(redirectURL, { headers });
 };

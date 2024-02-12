@@ -20,8 +20,8 @@ export default function HomePage() {
     <div>
       <h1>{t("home_title")}</h1>
       <p>{t("home_description")}</p>
-      <p>{greet}</p>
-      <p>{t("greet")}</p>
+      <p>{greet} from server</p>
+      <p>{t("greeting")} from client</p>
     </div>
   );
 }

@@ -20,8 +20,8 @@ export default function AboutPage() {
     <div>
       <h1>{t("about_title")}</h1>
       <p>{t("about_description")}</p>
-      <p>{greet}</p>
-      <p>{t("greet")}</p>
+      <p>{greet} from server</p>
+      <p>{t("greeting")} from client</p>
     </div>
   );
 }
